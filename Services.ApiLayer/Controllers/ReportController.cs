@@ -53,6 +53,36 @@ namespace Services.ApiLayer.Controllers
             var pdfBytes = await _reportService.GenerateCustomReportAsync(startDate, endDate);
             return File(pdfBytes, "application/pdf", $"OzelRapor-{startDate:dd-MM-yyyy}_to_{endDate:dd-MM-yyyy}.pdf");
         }
+        /// <summary>
+        /// Yıllık harcama raporunu PDF olarak döner.
+        /// </summary>
+        [HttpGet("yearly-report")]
+        public async Task<IActionResult> GetYearlyReport()
+        {
+            var currentYear = DateTime.UtcNow.Year;
+            var startOfYear = new DateTime(currentYear, 1, 1);
+            var endOfYear = new DateTime(currentYear, 12, 31);
+
+            var pdfBytes = await _reportService.GenerateCustomReportAsync(startOfYear, endOfYear);
+            return File(pdfBytes, "application/pdf", $"YillikRapor-{currentYear}.pdf");
+        }
+
+        /// <summary>
+        /// Yıllık raporu oluşturur ve admin kullanıcılara gönderir.
+        /// </summary>
+        [HttpPost("send-yearly-report")]
+        public async Task<IActionResult> SendYearlyReport()
+        {
+            try
+            {
+                await _reportService.SendReportToAdminsAsync("yearly");
+                return Ok(new { Message = "Yıllık rapor adminlere başarıyla gönderildi." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "Rapor gönderimi sırasında bir hata oluştu.", Error = ex.Message });
+            }
+        }
 
         /// <summary>
         /// Günlük raporu oluşturur ve admin kullanıcılara gönderir.
