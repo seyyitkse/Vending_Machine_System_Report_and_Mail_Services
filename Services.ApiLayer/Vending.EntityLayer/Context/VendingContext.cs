@@ -9,7 +9,7 @@ namespace Services.ApiLayer.Vending.EntityLayer.Context
     {
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
-        //    //    //optionsBuilder.UseSqlServer("server=MSI-Bravo\\SQL2022DEV;database=DbVending;Trusted_Connection=true;MultipleActiveResultSets=true;TrustServerCertificate=true;encrypt=false");
+        //    //optionsBuilder.UseSqlServer("server=MSI-Bravo\\SQL2022DEV;database=DbVending;Trusted_Connection=true;MultipleActiveResultSets=true;TrustServerCertificate=true;encrypt=false");
 
         //    optionsBuilder.UseSqlServer("Server=185.188.131.208,14330;Database=DbVending;User Id=sa;Password=123456;MultipleActiveResultSets=true;TrustServerCertificate=true;Encrypt=false;");
 

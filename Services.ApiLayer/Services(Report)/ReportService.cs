@@ -67,19 +67,6 @@ namespace Services.ApiLayer.Services_Report_
 
             return GenerateReport($"Özel Satış Raporu ({startDate:dd.MM.yyyy} - {endDate:dd.MM.yyyy})", orders);
         }
-        public async Task<byte[]> GenerateYearlyReportAsync()
-        {
-            var currentYear = DateTime.Today.Year;
-            var startOfYear = new DateTime(currentYear, 1, 1);
-            var endOfYear = new DateTime(currentYear, 12, 31);
-
-            var orders = await _context.Orders
-                .Include(o => o.AppUser)
-                .Where(o => o.OrderDate.Date >= startOfYear && o.OrderDate.Date <= endOfYear)
-                .ToListAsync();
-
-            return GenerateReport($"Yıllık Satış Raporu ({startOfYear:dd.MM.yyyy} - {endOfYear:dd.MM.yyyy})", orders);
-        }
 
         private byte[] GenerateReport(string title, List<Order> orders)
         {
@@ -229,10 +216,6 @@ namespace Services.ApiLayer.Services_Report_
                 case "monthly":
                     reportData = await GenerateMonthlyReportAsync();
                     reportName = "Aylık Satış Raporu";
-                    break;
-                case "yearly":
-                    reportData = await GenerateYearlyReportAsync();
-                    reportName = "Yıllık Satış Raporu";
                     break;
                 default:
                     throw new ArgumentException("Geçersiz rapor türü.");
